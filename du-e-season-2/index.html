@@ -10,7 +10,7 @@ select{font:inherit;padding:.3rem}
 </style>
 <main>
 <h1>渡厄-第二季</h1>
-<label>集數 <select id="episode"></select></label>
+<label>集数 <select id="episode"></select></label>
 <video id="player" controls controlslist="nodownload" playsinline></video>
 <p id="status" role="status"></p>
 </main>
@@ -50,7 +50,7 @@ fetch('episodes.json').then(response => {
   episode.addEventListener('change', loadEpisode);
   loadEpisode();
 }).catch(() => {
-  status.textContent = '無法載入集數清單。';
+  status.textContent = '无法加载集数列表。';
 });
 </script>
 
