@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-Hant">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>渡厄-第二季</title>
+<style>
+body{margin:2rem auto;padding:0 1rem;max-width:56rem;background:#141414;color:#eee;font:1rem system-ui}
+video{width:100%;background:#000;margin-top:1rem}
+select{font:inherit;padding:.3rem}
+</style>
+<main>
+<h1>渡厄-第二季</h1>
+<label>集數 <select id="episode"></select></label>
+<video id="player" controls controlslist="nodownload" playsinline></video>
+<p id="status" role="status"></p>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1/dist/hls.min.js"></script>
+<script>
+const video = document.querySelector('#player');
+const episode = document.querySelector('#episode');
+const status = document.querySelector('#status');
+let hls;
+function loadEpisode() {
+  status.textContent = '';
+  if (hls) hls.destroy();
+  const url = episode.value + '/playlist.m3u8';
+  if (video.canPlayType('application/vnd.apple.mpegurl')) {
+    video.src = url;
+  } else if (window.Hls && Hls.isSupported()) {
+    hls = new Hls();
+    hls.attachMedia(video);
+    hls.loadSource(url);
+    hls.on(Hls.Events.ERROR, (_, error) => {
+      if (error.fatal) status.textContent = '影片載入失敗，請重新整理後再試。';
+    });
+  } else {
+    status.textContent = '這個瀏覽器無法播放此影片。';
+  }
+}
+video.addEventListener('error', () => {
+  status.textContent = '影片載入失敗，請重新整理後再試。';
+});
+fetch('episodes.json').then(response => {
+  if (!response.ok) throw new Error('Episode list unavailable');
+  return response.json();
+}).then(episodes => {
+  for (const id of episodes) {
+    episode.add(new Option('第 ' + Number(id.slice(2)) + ' 集', id));
+  }
+  episode.addEventListener('change', loadEpisode);
+  loadEpisode();
+}).catch(() => {
+  status.textContent = '無法載入集數清單。';
+});
+</script>
+
+
