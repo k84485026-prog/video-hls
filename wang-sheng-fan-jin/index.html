@@ -7,13 +7,23 @@
 body{margin:2rem auto;padding:0 1rem;max-width:56rem;background:#141414;color:#eee;font:1rem system-ui}
 video{width:100%;background:#000;margin-top:1rem}
 select{font:inherit;padding:.3rem}
+#controls{display:flex;align-items:center;gap:.5rem;margin-top:.5rem}
+#controls input{flex:1;min-width:0}
+#controls button{font:inherit;padding:.35rem .5rem}
 </style>
 <main>
 <h1>妄生梵烬</h1>
 <label>集数 <select id="episode"></select></label>
-<video id="player" controls controlslist="nodownload" playsinline></video>
+<video id="player" disablepictureinpicture playsinline></video>
+<div id="controls">
+  <button type="button" id="toggle">播放</button>
+  <input type="range" id="seek" min="0" max="0" value="0" step="0.1" aria-label="播放进度" disabled>
+  <button type="button" id="mute">静音</button>
+  <button type="button" id="fullscreen">全屏</button>
+</div>
 <p id="status" role="status"></p>
 </main>
+<script defer src="player-controls.js?v=1"></script>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@1/dist/hls.min.js"></script>
 <script>
 const video = document.querySelector('#player');
