@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-Hant">
+<html lang="zh-Hans">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>渡厄-第二季</title>
@@ -31,14 +31,14 @@ function loadEpisode() {
     hls.attachMedia(video);
     hls.loadSource(url);
     hls.on(Hls.Events.ERROR, (_, error) => {
-      if (error.fatal) status.textContent = '影片載入失敗，請重新整理後再試。';
+      if (error.fatal) status.textContent = '视频加载失败，请刷新页面后重试。';
     });
   } else {
-    status.textContent = '這個瀏覽器無法播放此影片。';
+    status.textContent = '此浏览器无法播放此视频。';
   }
 }
 video.addEventListener('error', () => {
-  status.textContent = '影片載入失敗，請重新整理後再試。';
+  status.textContent = '视频加载失败，请刷新页面后重试。';
 });
 fetch('episodes.json').then(response => {
   if (!response.ok) throw new Error('Episode list unavailable');
